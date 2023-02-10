@@ -17,4 +17,4 @@ productSchema.methods.toJSON = function() {
     return rest;
 }
 
-export const User = model("User", productSchema);
+export const Product = model("User", productSchema);
