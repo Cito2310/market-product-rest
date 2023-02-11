@@ -88,7 +88,7 @@ export const loginUser = async (req: Request, res: Response) => {
         // get user with username
         const user = await User.findOne({ username });
         // check user exist
-        if ( !user ) return res.status(400).json({ msg: "login invalid" + JSON.stringify(req.body) });
+        if ( !user ) return res.status(400).json({ msg: "login invalid user" + JSON.stringify(req.body) });
         
         // check password is equal
         const samePassword = bcryptjs.compareSync( password, user.password );
