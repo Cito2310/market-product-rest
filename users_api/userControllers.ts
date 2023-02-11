@@ -100,5 +100,5 @@ export const loginUser = async (req: Request, res: Response) => {
         return res.status(200).json({ token });
 
 
-    } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
+    } catch (error) { console.log(error);return res.status(500).json({ msg: "1500 - unexpected server error" })}
 }

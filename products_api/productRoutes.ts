@@ -11,7 +11,7 @@ import { changePriceProduct, createProduct, deleteProduct, editProduct, getProdu
 export const routeProduct = Router();
 
 
-routeProduct.put("/:barcode",[
+routeProduct.put("/price/:barcode",[
     validateJWT,
     
     check("barcode", "product with this barcode not exist").trim().custom(validation.productExistBarcode),
