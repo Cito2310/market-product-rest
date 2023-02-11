@@ -21,6 +21,10 @@ export const changePriceProduct = async (req: Request, res: Response) => {
 export const createProduct = async (req: Request, res: Response) => {
     try {
         const { _id, ...newProductData } = req.body as IBodyProduct;
+
+        const { price } = newProductData
+
+
         // TODO - Check exist same product
         const newProduct = new Product(newProductData);
 

@@ -11,5 +11,4 @@ export interface IProductMongo {
     name: string,
     price: number,
     size: string,
-    subcategory: string,
 }
