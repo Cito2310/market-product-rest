@@ -88,11 +88,11 @@ export const loginUser = async (req: Request, res: Response) => {
         // get user with username
         const user = await User.findOne({ username });
         // check user exist
-        if ( !user ) return res.status(400).json({ msg: "login invalid user" + JSON.stringify(req.body) });
+        if ( !user ) return res.status(400).json({ msg: "login invalid" });
         
         // check password is equal
         const samePassword = bcryptjs.compareSync( password, user.password );
-        if ( !samePassword ) return res.status(400).json({ msg: "login invalid password" + JSON.stringify(req.body) })
+        if ( !samePassword ) return res.status(400).json({ msg: "login invalid" })
 
         // generate JWT and return
         const token: string = await generatorJWT({ id: user._id });

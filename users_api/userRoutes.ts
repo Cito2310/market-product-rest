@@ -56,7 +56,7 @@ routeUser.get("/",[ validateJWT ], getUser);
 routeUser.delete("/",[ validateJWT ], deleteUser);
 
 
-routeUser.get("/login",[
+routeUser.post("/login",[
     check("password", "password is required").trim().notEmpty(),
     check("password", "0005 - password invalid").trim().isString(),
     check("password", "0006 - password length can only be greater than 8 and less than 24 characters").trim().isLength({max: 100}),
