@@ -3,7 +3,6 @@ import { IUserMongo } from '../types/TypesMoongose';
 
 
 const userSchema = new Schema<IUserMongo>({
-    email: {type: String, required: true, lowercase: true},
     password: {type: String, required: true},
     username: {type: String, required: true},
 })
