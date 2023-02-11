@@ -22,10 +22,11 @@ export const createProduct = async (req: Request, res: Response) => {
     try {
         const { _id, ...newProductData } = req.body as IBodyProduct;
 
-        const { price } = newProductData
+        const { price, ...newProductDataNotPrice } = newProductData;
+        const existSomeProduct = await Product.findOne(newProductDataNotPrice);
 
+        if ( existSomeProduct ) return res.status(400).json({ msg: "this product already exists" })
 
-        // TODO - Check exist same product
         const newProduct = new Product(newProductData);
 
         newProduct.save()
@@ -52,7 +53,9 @@ export const editProduct = async (req: Request, res: Response) => {
     try {
         const { barcode } = req.params;
         const { _id, price, ...modifyProductData } = req.body as IBodyProduct;
-        // TODO Check some product
+
+        const existSomeProduct = await Product.findOne(modifyProductData);
+        if ( existSomeProduct ) return res.status(400).json({ msg: "this product already exists" })
         
         const modifyProduct = await Product.findOneAndUpdate({barcode}, modifyProductData, { new: true })
         return res.status(200).json(modifyProduct)
