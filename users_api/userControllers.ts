@@ -93,7 +93,6 @@ export const loginUser = async (req: Request, res: Response) => {
         // check password is equal
         const samePassword = bcryptjs.compareSync( password, user.password );
         if ( !samePassword ) return res.status(400).json({ msg: "login invalid password" + JSON.stringify(req.body) })
-        console.log("HECHO3 - " + username +" "+ password)
 
         // generate JWT and return
         const token: string = await generatorJWT({ id: user._id });

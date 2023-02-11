@@ -57,9 +57,11 @@ routeUser.delete("/",[ validateJWT ], deleteUser);
 
 
 routeUser.get("/login",[
+    check("password", "password is required").trim().notEmpty(),
     check("password", "0005 - password invalid").trim().isString(),
     check("password", "0006 - password length can only be greater than 8 and less than 24 characters").trim().isLength({max: 100}),
 
+    check("username", "username is required").trim().notEmpty(),
     check("username", "0008 - username not is string").trim().isString(),
     check("username", "0009 - username length can only be greater than 6 and less than 24 characters").trim().isLength({max: 100}),
     checkFields
