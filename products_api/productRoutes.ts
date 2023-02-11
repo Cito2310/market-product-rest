@@ -54,10 +54,6 @@ routeProduct.post("/",[
     check("size", "size not is string").trim().isString(),
     check("size", "size length can only be less than 24 characters").trim().isLength({max: 24}),
 
-    check("subcategory", "subcategory is required").trim().notEmpty(),
-    check("subcategory", "subcategory not is string").trim().isString(),
-    check("subcategory", "subcategory length can only be less than 24 characters").trim().isLength({max: 24}),
-
     checkFields
 ], createProduct);
 
@@ -96,23 +92,12 @@ routeProduct.put("/:barcode",[
     check("size", "size not is string").optional().trim().isString(),
     check("size", "size length can only be less than 24 characters").optional().trim().isLength({max: 24}),
 
-    check("subcategory", "subcategory is required").optional().trim().notEmpty(),
-    check("subcategory", "subcategory not is string").optional().trim().isString(),
-    check("subcategory", "subcategory length can only be less than 24 characters").optional().trim().isLength({max: 24}),
-
     checkFields
 ], editProduct);
 
 
-routeProduct.get("/:barcode",[
+routeProduct.get("/",[
     validateJWT,
-
-    check("barcode", "product with this barcode not exist").trim().custom(validation.productExistBarcode),
-    check("barcode", "barcode is required").trim().notEmpty(),
-    check("barcode", "barcode not is string").trim().isString(),
-    check("barcode", "barcode length can only be less than 50 characters").trim().isLength({max: 50}),
-
-    checkFields
 ], getProducts);
 
 
