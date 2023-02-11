@@ -87,13 +87,15 @@ export const loginUser = async (req: Request, res: Response) => {
 
         // get user with username
         const user = await User.findOne({ username });
-        
+        console.log("HECHO1 - " + username +" "+ password)
         // check user exist
         if ( !user ) return res.status(400).json({ msg: "login invalid" });
-
+        console.log("HECHO2 - " + username +" "+ password)
+        
         // check password is equal
         const samePassword = bcryptjs.compareSync( password, user.password );
         if ( !samePassword ) return res.status(400).json({ msg: "login invalid" })
+        console.log("HECHO3 - " + username +" "+ password)
 
         // generate JWT and return
         const token: string = await generatorJWT({ id: user._id });
