@@ -87,14 +87,12 @@ export const loginUser = async (req: Request, res: Response) => {
 
         // get user with username
         const user = await User.findOne({ username });
-        console.log("HECHO1 - " + username +" "+ password)
         // check user exist
-        if ( !user ) return res.status(400).json({ msg: "login invalid" });
-        console.log("HECHO2 - " + username +" "+ password)
+        if ( !user ) return res.status(400).json({ msg: "login invalid" + JSON.stringify(req.body) });
         
         // check password is equal
         const samePassword = bcryptjs.compareSync( password, user.password );
-        if ( !samePassword ) return res.status(400).json({ msg: "login invalid" })
+        if ( !samePassword ) return res.status(400).json({ msg: "login invalid password" + JSON.stringify(req.body) })
         console.log("HECHO3 - " + username +" "+ password)
 
         // generate JWT and return
