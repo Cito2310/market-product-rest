@@ -20,3 +20,8 @@ export interface IBodyProduct extends IProductMongo {
 export interface IBodyChangeDataProduct extends IProductMongo {
     _id?: unknown,
 }
+
+export interface IBodyChangeDataPriceProduct {
+    _id?: unknown,
+    price: number
+}

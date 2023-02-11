@@ -2,14 +2,17 @@ import { Request, Response } from "express";
 
 import { Product } from "./productModels";
 
-import { IBodyProduct } from '../types/InputBodyTypes';
+import { IBodyProduct, IBodyChangeDataPriceProduct } from '../types/InputBodyTypes';
 
 
 export const changePriceProduct = async (req: Request, res: Response) => {
     try {
         const { barcode } = req.params;
+        const { price } = req.body as IBodyChangeDataPriceProduct;
 
-        return res.status(200).json({ msg: "Work" })
+        const modifyProduct = await Product.findOneAndUpdate({barcode}, { price }, { new: true });
+
+        return res.status(200).json(modifyProduct);
 
     } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
 }
