@@ -52,6 +52,15 @@ export const productExistBarcode: CustomValidator = async ( value: string ) => {
     const product = await Product.findOne({ barcode: value });
     if ( !product ) throw new Error;
 
-
     return true;
+}
+
+
+
+// C H E C K - C A T E G O R I E S
+export const arrayContentOnlyString: CustomValidator = async ( value: unknown[] ) => {
+    const notString = value.find( item => typeof item !== "string" );
+    if ( notString ) throw new Error;
+
+    return true
 }

@@ -12,3 +12,8 @@ export interface IProductMongo {
     price: number,
     size: string,
 }
+
+export interface ICategoryMongo {
+    category: string,
+    brands: string[] | [],
+}

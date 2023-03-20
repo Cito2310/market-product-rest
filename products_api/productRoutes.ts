@@ -59,12 +59,14 @@ routeProduct.post("/",[
 
 
 routeProduct.delete("/:barcode",[ 
+    validateJWT,
+
     check("barcode", "product with this barcode not exist").trim().custom(validation.productExistBarcode),
     check("barcode", "barcode is required").trim().notEmpty(),
     check("barcode", "barcode not is string").trim().isString(),
     check("barcode", "barcode length can only be less than 50 characters").trim().isLength({max: 50}),
 
-    validateJWT
+    checkFields,
 ], deleteProduct);
 
 
@@ -96,14 +98,10 @@ routeProduct.put("/:barcode",[
 ], editProduct);
 
 
-routeProduct.get("/",[
-    validateJWT,
-], getProducts);
+routeProduct.get("/", getProducts);
 
 
 routeProduct.get("/:barcode",[
-    validateJWT,
-
     check("barcode", "product with this barcode not exist").trim().custom(validation.productExistBarcode),
     check("barcode", "barcode is required").trim().notEmpty(),
     check("barcode", "barcode not is string").trim().isString(),
