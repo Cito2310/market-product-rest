@@ -62,3 +62,16 @@ export interface IBodyModifyBrandToCategory {
 export interface IBodyDeleteCategoriesAndBrand {
     category: string,
 }
+
+
+
+// BODY TICKET
+export interface IBodyCreateTicket {
+    date: string,
+    idTicket: string,
+    products: {
+        amount: number,
+        barcode: string,
+        price: number,
+    }[]
+}

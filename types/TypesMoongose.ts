@@ -17,3 +17,9 @@ export interface ICategoryMongo {
     category: string,
     brands: string[] | [],
 }
+
+export interface ITicketMongo {
+    date: string,
+    idTicket: string,
+    products: { amount: number, barcode: string, price: number }[],
+}

@@ -64,3 +64,17 @@ export const arrayContentOnlyString: CustomValidator = async ( value: unknown[] 
 
     return true
 }
+
+// C H E C K - T I C K E T
+export const arrayContentOnlyProducts: CustomValidator = async ( value: unknown[] ) => {
+    value.forEach( item => {
+        const itemIsObject = typeof item === 'object' && !Array.isArray(item) && item !== null;
+
+        if (itemIsObject) {
+            // @ts-ignore
+            if (item.amount && item.price && item.barcode) return;
+        }
+
+        throw new Error;
+    })
+}
