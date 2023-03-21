@@ -3,9 +3,7 @@ import { Request, Response } from "express";
 import { Category } from "./categoryModels";
 
 import {
-    IBodyAddBrandToCategory, 
     IBodyCreateCategory, 
-    IBodyDeleteBrandToCategory, 
     IBodyDeleteCategoriesAndBrand, 
     IBodyModifyBrandToCategory, 
     IBodyModifyNameCategory,
@@ -84,60 +82,17 @@ export const modifyNameCategory = async( req: Request, res: Response ) => {
 
 
 // BRAND CONTROLLERS
-// PUT - Modify one Brand to Category
-export const modifyBrandToCategory = async( req: Request, res: Response ) => {
+// PUT - Edit brands to category
+export const editBrandsToCategory = async( req: Request, res: Response ) => {
     try {
-        let { newBrand, category, oldBrand } = req.body as IBodyModifyBrandToCategory;
+        let { brands, category } = req.body as IBodyModifyBrandToCategory;
 
         category = category.toUpperCase();
-        newBrand = newBrand.toUpperCase();
-        oldBrand = oldBrand.toUpperCase();
 
         let existCategory = await Category.findOne({category});
         if (!existCategory) return res.status(404).json({ msg: "not found category" });
 
-        existCategory.brands = existCategory.brands.map( brandOld => {
-            if ( oldBrand === brandOld ) return newBrand;
-            return brandOld;
-        });
-
-        await existCategory.save();
-        return res.json(existCategory);
-
-    } catch (error) { console.log(error); return res.status(500).json({ msg: "1500 - unexpected server error" }) }
-}
-
-// DELETE - Delete Brand to Category
-export const deleteBrandToCategory = async( req: Request, res: Response ) => {
-    try {
-        let { brands, category } = req.body as IBodyDeleteBrandToCategory;
-
-        category = category.toUpperCase();
-        brands = brands?.map( value => value.toUpperCase() );
-
-        let existCategory = await Category.findOne({category});
-        if (!existCategory) return res.status(404).json({ msg: "not found category" });
-
-        existCategory.brands = existCategory.brands.filter( brand => !brands.includes(brand) );
-
-        await existCategory.save();
-        return res.json(existCategory);
-
-    } catch (error) { console.log(error); return res.status(500).json({ msg: "1500 - unexpected server error" }) }
-}
-
-// POST - Add Brand to Category
-export const addBrandToCategory = async( req: Request, res: Response ) => {
-    try {
-        let { brands, category } = req.body as IBodyAddBrandToCategory;
-
-        category = category.toUpperCase();
-        brands = brands?.map( value => value.toUpperCase() );
-
-        let existCategory = await Category.findOne({category});
-        if (!existCategory) return res.status(404).json({ msg: "not found category" });
-
-        existCategory.brands = [...existCategory.brands, ...brands];
+        existCategory.brands = brands;
 
         await existCategory.save();
         return res.json(existCategory);

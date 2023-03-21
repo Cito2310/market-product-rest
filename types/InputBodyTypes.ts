@@ -43,9 +43,8 @@ export interface IBodyModifyNameCategory {
     oldCategory: string,
 }
 
-export interface IBodyAddBrandToCategory {
+export interface IBodyDeleteCategoriesAndBrand {
     category: string,
-    brands: string[],
 }
 
 export interface IBodyDeleteBrandToCategory {
@@ -53,15 +52,12 @@ export interface IBodyDeleteBrandToCategory {
     brands: string[],
 }
 
+// body brand
 export interface IBodyModifyBrandToCategory {
     category: string,
-    newBrand: string,
-    oldBrand: string,
+    brands: string[],
 }
 
-export interface IBodyDeleteCategoriesAndBrand {
-    category: string,
-}
 
 
 

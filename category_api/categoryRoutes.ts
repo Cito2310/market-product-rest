@@ -2,12 +2,10 @@ import { Router } from "express";
 import { check } from "express-validator";
 
 import { 
-    addBrandToCategory,
     createCategory, 
-    deleteBrandToCategory,
     deleteCategoriesAndBrand,
     getAllCategoriesAndBrand, 
-    modifyBrandToCategory,
+    editBrandsToCategory,
     modifyNameCategory,
 
 } from './categoryControllers';
@@ -94,32 +92,6 @@ routeCategory.put("/brand", [
         .isLength({max: 16}).withMessage("category max length 16").bail()
     ,
 
-    check("newBrand")
-        .notEmpty().withMessage("newBrand is required").bail()
-        .isString().withMessage("newBrand not is string").bail()
-        .isLength({max: 16}).withMessage("newBrand max length 16").bail()
-    ,
-
-    check("oldBrand")
-        .notEmpty().withMessage("oldBrand is required").bail()
-        .isString().withMessage("oldBrand not is string").bail()
-        .isLength({max: 16}).withMessage("oldBrand max length 16").bail()
-    ,
-
-    checkFields
-], modifyBrandToCategory)
-
-// DELETE - Delete Brand to Category
-routeCategory.delete("/brand", [
-    validateJWT,
-
-    check("category")
-        .trim()
-        .notEmpty().withMessage("category is required").bail()
-        .isString().withMessage("category not is string").bail()
-        .isLength({max: 16}).withMessage("category max length 16").bail()
-    ,
-
     check("brands")
         .notEmpty().withMessage("brands is required").bail()
         .isArray({min: 1}).withMessage("brands need array with min one brand").bail()
@@ -127,24 +99,4 @@ routeCategory.delete("/brand", [
     ,
 
     checkFields
-], deleteBrandToCategory)
-
-// POST - Add Brand to Category
-routeCategory.post("/brand", [
-    validateJWT,
-
-    check("category")
-        .trim()
-        .notEmpty().withMessage("category is required").bail()
-        .isString().withMessage("category not is string").bail()
-        .isLength({max: 16}).withMessage("category max length 16").bail()
-    ,
-
-    check("brands")
-        .notEmpty().withMessage("brands is required").bail()
-        .isArray({min: 1}).withMessage("brands need array with min one brand").bail()
-        .custom(validation.arrayContentOnlyString).withMessage("brands content item not string").bail()
-    ,
-
-    checkFields
-], addBrandToCategory)
+], editBrandsToCategory)
