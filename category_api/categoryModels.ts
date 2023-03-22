@@ -4,7 +4,7 @@ import { ICategoryMongo } from '../types/TypesMoongose';
 
 const categorySchema = new Schema<ICategoryMongo>({
     category: {type: String, required: true, uppercase: true},
-    brands: [{type: String}],
+    brands: [{type: String, uppercase: true}],
 })
 
 categorySchema.methods.toJSON = function() {
