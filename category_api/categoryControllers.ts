@@ -41,14 +41,12 @@ export const getAllCategoriesAndBrand = async( req: Request, res: Response ) => 
 // DELETE - Delete Categories and Brand
 export const deleteCategoriesAndBrand = async ( req: Request, res: Response ) => {
     try {
-        let { category } = req.body as IBodyDeleteCategoriesAndBrand;
+        let { idCategory } = req.params;
 
-        category = category.toUpperCase();
-
-        let existCategory = await Category.findOne({category});
+        const existCategory = await Category.findById(idCategory);
         if (!existCategory) return res.status(404).json({ msg: "not found category" });
 
-        await Category.findOneAndDelete({category});
+        await Category.findById(idCategory);
         res.status(204).json({})
         
     } catch (error) { console.log(error); return res.status(500).json({ msg: "1500 - unexpected server error" }) }

@@ -43,18 +43,7 @@ routeCategory.post("/", [
 routeCategory.get("/", [ validateJWT ], getAllCategoriesAndBrand)
 
 // DELETE - Delete Categories and Brand
-routeCategory.delete("/", [ 
-    validateJWT,
-
-    check("category")
-        .trim()
-        .notEmpty().withMessage("category is required").bail()
-        .isString().withMessage("category not is string").bail()
-        .isLength({max: 16}).withMessage("category max length 16").bail()
-    ,
-    
-    checkFields
-], deleteCategoriesAndBrand)
+routeCategory.delete("/:idCategory", [ validateJWT ], deleteCategoriesAndBrand)
 
 // PUT - Modify Name Category
 routeCategory.put("/", [
