@@ -38,6 +38,7 @@ export const getAllCategoriesAndBrand = async( req: Request, res: Response ) => 
         
     } catch (error) { console.log(error); return res.status(500).json({ msg: "1500 - unexpected server error" }) }
 }
+
 // DELETE - Delete Categories and Brand
 export const deleteCategoriesAndBrand = async ( req: Request, res: Response ) => {
     try {
@@ -46,8 +47,8 @@ export const deleteCategoriesAndBrand = async ( req: Request, res: Response ) =>
         const existCategory = await Category.findById(idCategory);
         if (!existCategory) return res.status(404).json({ msg: "not found category" });
 
-        await Category.findById(idCategory);
-        res.status(204).json({})
+        await Category.findByIdAndDelete(idCategory);
+        res.status(200).json(existCategory);
         
     } catch (error) { console.log(error); return res.status(500).json({ msg: "1500 - unexpected server error" }) }
 }

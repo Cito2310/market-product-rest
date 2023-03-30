@@ -52,7 +52,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
 export const editProduct = async (req: Request, res: Response) => {
     try {
         const { barcode } = req.params;
-        const { _id, price, ...modifyProductData } = req.body as IBodyProduct;
+        const { _id, ...modifyProductData } = req.body as IBodyProduct;
 
         const existSomeProduct = await Product.findOne(modifyProductData);
         if ( existSomeProduct ) return res.status(400).json({ msg: "this product already exists" })
