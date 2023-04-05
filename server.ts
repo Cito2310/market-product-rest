@@ -6,7 +6,6 @@ import { dbConnection } from './database/config';
 import { routeUser } from './users_api/userRoutes';
 import { routeProduct } from './products_api/productRoutes';
 import { routeCategory } from './category_api/categoryRoutes';
-import { routeTicket } from './ticket_api/ticketRoutes';
 
 export class Server {
     private app = express()
@@ -27,7 +26,6 @@ export class Server {
         this.app.use( this.paths.user, routeUser )
         this.app.use( this.paths.product, routeProduct )
         this.app.use( this.paths.category, routeCategory )
-        this.app.use( this.paths.ticket, routeTicket )
     }
 
     private connectDB() {dbConnection()}

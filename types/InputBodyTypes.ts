@@ -57,17 +57,3 @@ export interface IBodyModifyBrandToCategory {
     category: string,
     brands: string[],
 }
-
-
-
-
-// BODY TICKET
-export interface IBodyCreateTicket {
-    date: string,
-    idTicket: string,
-    products: {
-        amount: number,
-        barcode: string,
-        price: number,
-    }[]
-}
