@@ -10,9 +10,9 @@ import {
 
 } from './categoryControllers';
 
-import { checkFields } from '../middlewares/checkFields';
-import { validateJWT } from '../middlewares/validateJWT';
-import * as validation from "../helpers/validation";
+import { checkFields } from '../../middlewares/checkFields';
+import { validateJWT } from '../../middlewares/validateJWT';
+import * as validation from "../../helpers/validation";
 
 export const routeCategory = Router();
 

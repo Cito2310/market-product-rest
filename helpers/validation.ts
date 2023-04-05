@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 
 import { User } from '../users_api/userModels';
-import { Product } from '../products_api/productModels';
+import { Product } from '../apis/products/productModels';
 import { CustomValidator } from 'express-validator';
 
 // C H E C K - U S E R S

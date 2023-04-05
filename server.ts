@@ -3,9 +3,9 @@ import cors from "cors";
 
 import { dbConnection } from './database/config';
 
-import { routeUser } from './users_api/userRoutes';
-import { routeProduct } from './products_api/productRoutes';
-import { routeCategory } from './category_api/categoryRoutes';
+import { routeCategory } from './apis/category/categoryRoutes';
+import { routeProduct } from './apis/products/productRoutes';
+import { routeUser } from './apis/users/userRoutes';
 
 export class Server {
     private app = express()

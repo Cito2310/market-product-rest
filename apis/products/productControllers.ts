@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { Product } from "./productModels";
 
-import { IBodyProduct, IBodyChangeDataPriceProduct } from '../types/InputBodyTypes';
+import { IBodyProduct, IBodyChangeDataPriceProduct } from '../../types/InputBodyTypes';
 
 
 export const changePriceProduct = async (req: Request, res: Response) => {

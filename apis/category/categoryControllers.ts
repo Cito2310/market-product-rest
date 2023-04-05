@@ -7,7 +7,7 @@ import {
     IBodyDeleteCategoriesAndBrand, 
     IBodyModifyBrandToCategory, 
     IBodyModifyNameCategory,
-} from '../types/InputBodyTypes';
+} from '../../types/InputBodyTypes';
 
 
 // CATEGORY  CONTROLLERS

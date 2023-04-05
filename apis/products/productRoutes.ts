@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { check } from "express-validator";
 
-import { checkFields } from '../middlewares/checkFields';
-import { validateJWT } from '../middlewares/validateJWT';
+import { checkFields } from '../../middlewares/checkFields';
+import { validateJWT } from '../../middlewares/validateJWT';
 
-import * as validation from "../helpers/validation";
+import * as validation from "../../helpers/validation";
 
 import { changePriceProduct, createProduct, deleteProduct, editProduct, getProducts, getProductWithBarcode } from './productControllers';
 
