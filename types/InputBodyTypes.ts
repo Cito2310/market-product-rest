@@ -1,18 +1,24 @@
 import { IUserMongo, IProductMongo } from './TypesMoongose';
 
+
+// B O D Y   U S E R   T Y P E
 export interface IBodyUser extends IUserMongo {
     _id?: unknown
 }
 
-export interface IBodyChangeDataUser extends IUserMongo {
+export interface IBodyChangeDataUser {
     _id?: unknown
+    username?: string
+    password?: string
 }
 
-export interface IBodyLogin extends IUserMongo {
-    username: string,
-    password: string,
-}
+export interface IBodyLogin extends IUserMongo {}
 
+
+
+
+
+// B O D Y   P R O D U C T   T Y P E
 export interface IBodyProduct extends IProductMongo {
     _id?: unknown
 }
@@ -32,7 +38,7 @@ export interface IBodyChangeDataPriceProduct {
 
 
 
-// BODY CATEGORY
+// B O D Y   C A T E G O R Y   T Y P E
 export interface IBodyCreateCategory {
     category: string,
     brands?: string[],

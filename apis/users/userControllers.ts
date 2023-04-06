@@ -13,6 +13,7 @@ import { IBodyUser, IBodyChangeDataUser, IBodyLogin } from '../../types/InputBod
 // Permite crear un nuevo usuario recibiendo en el body ( username, password )
 export async function createUser (req: Request, res: Response) {
     try {
+        // declare var
         const { _id, ...userData } = req.body as IBodyUser;
     
         // encrypt password
@@ -34,10 +35,13 @@ export async function createUser (req: Request, res: Response) {
 }
 
 
+
+
 // CONTROLLER - Change Data User - Need Token
 // Permite editar el usuario que esta en el token con la data en el body ( username, password )
 export async function changeDataUser (req: Request, res: Response) {
     try {
+        // declare var
         const { _id, ...newData } = req.body as IBodyChangeDataUser;
         const user = req.user;
 
@@ -61,6 +65,8 @@ export async function changeDataUser (req: Request, res: Response) {
 }
 
 
+
+
 // CONTROLLER - Get User - Need Token
 export async function getUser (req: Request, res: Response) {
     try {  
@@ -69,6 +75,8 @@ export async function getUser (req: Request, res: Response) {
 
     } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
 }
+
+
 
 
 // CONTROLLER - Delete User - Need Token
@@ -82,23 +90,19 @@ export async function deleteUser (req: Request, res: Response) {
 }
 
 
+
+
 // CONTROLLER - Login User
 export async function loginUser (req: Request, res: Response) {
     try {
-        // destructure req.body login
-        const { username, password } = req.body as IBodyLogin;
+        // declare var
+        const { username } = req.body as IBodyLogin;
 
-        // get user with username
-        const user = await User.findOne({ username });
-        // check user exist
-        if ( !user ) return res.status(404).json({ msg: "001404-not found user" });
-        
-        // check password is equal
-        const samePassword = bcryptjs.compareSync( password, user.password );
-        if ( !samePassword ) return res.status(400).json({ msg: "001400-login invalid" })
+        // get user
+        const user = await User.findOne({username})
 
         // generate JWT and return
-        const token: string = await generatorJWT({ id: user._id });
+        const token: string = await generatorJWT({ id: user?._id });
         return res.status(200).json({ token });
 
 
