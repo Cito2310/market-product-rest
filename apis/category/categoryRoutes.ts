@@ -6,61 +6,66 @@ import {
     deleteCategoriesAndBrand,
     getAllCategoriesAndBrand, 
     editBrandsToCategory,
-
 } from './categoryControllers';
 
 import { checkFields } from '../../middlewares/checkFields';
 import { validateJWT } from '../../middlewares/validateJWT';
-import * as validation from "../../helpers/validation";
+import * as checkValidationCategory from "../../helpers/checkValidationCategory";
 
 export const routeCategory = Router();
 
 
-// CATEGORY  CONTROLLERS
-// POST - Route create Category
+
+
 routeCategory.post("/", [
     validateJWT,
 
-    check("category")
-        .trim()
+    check("category").trim()
         .notEmpty().withMessage("category is required")
         .isString().withMessage("category not is string")
         .isLength({max: 16}).withMessage("category max length 16")
-    ,
-
-    check("brands")
-        .optional()
-        .notEmpty().withMessage("brands is required")
-        .isArray({min: 1}).withMessage("brands need array with min one brand")
-        .custom(validation.arrayContentOnlyString).withMessage("brands content item not string")
+        .custom(checkValidationCategory.notExistCategory).withMessage("already exist category")
     ,
 
     checkFields
 ], createCategory)
 
-// GET - Route get all categories and brand
+
+
+
 routeCategory.get("/", [ validateJWT ], getAllCategoriesAndBrand)
 
-// DELETE - Route delete Categories and Brand
-routeCategory.delete("/:idCategory", [ validateJWT ], deleteCategoriesAndBrand)
 
 
-// BRAND CONTROLLERS
-// PUT - Route edit brands to category
+
+routeCategory.delete("/:idCategory", [
+    validateJWT,
+
+    check("idCategory")
+        .isMongoId().withMessage("id invalid")
+        .custom(checkValidationCategory.existCategoryId).withMessage("not exist category with this id")
+    ,
+
+    checkFields
+], deleteCategoriesAndBrand)
+
+
+
+
 routeCategory.put("/brand", [ 
     validateJWT,
 
-    check("category")
-        .trim()
+    check("category").trim()
         .notEmpty().withMessage("category is required")
         .isString().withMessage("category not is string")
         .isLength({max: 16}).withMessage("category max length 16")
+        .custom(checkValidationCategory.existCategory).withMessage("not exist category with this name")
     ,
 
     check("brands")
         .notEmpty().withMessage("brands is required")
         .isArray({min: 1}).withMessage("brands need array with min one brand")
-        .custom(validation.arrayContentOnlyString).withMessage("brands content item not string")
+        .custom(checkValidationCategory.arrayContentOnlyString).withMessage("brands content item not string")
     ,
 
     checkFields
