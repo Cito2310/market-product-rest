@@ -1,6 +1,6 @@
 import bcryptjs from 'bcryptjs';
 
-import { User } from '../users_api/userModels';
+import { User } from '../apis/users/userModels';
 import { Product } from '../apis/products/productModels';
 import { CustomValidator } from 'express-validator';
 
