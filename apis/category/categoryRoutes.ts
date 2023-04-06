@@ -6,7 +6,6 @@ import {
     deleteCategoriesAndBrand,
     getAllCategoriesAndBrand, 
     editBrandsToCategory,
-    modifyNameCategory,
 
 } from './categoryControllers';
 
@@ -18,73 +17,50 @@ export const routeCategory = Router();
 
 
 // CATEGORY  CONTROLLERS
-// POST - Create Category
+// POST - Route create Category
 routeCategory.post("/", [
     validateJWT,
 
     check("category")
         .trim()
-        .notEmpty().withMessage("category is required").bail()
-        .isString().withMessage("category not is string").bail()
-        .isLength({max: 16}).withMessage("category max length 16").bail()
+        .notEmpty().withMessage("category is required")
+        .isString().withMessage("category not is string")
+        .isLength({max: 16}).withMessage("category max length 16")
     ,
 
     check("brands")
         .optional()
-        .notEmpty().withMessage("brands is required").bail()
-        .isArray({min: 1}).withMessage("brands need array with min one brand").bail()
-        .custom(validation.arrayContentOnlyString).withMessage("brands content item not string").bail()
+        .notEmpty().withMessage("brands is required")
+        .isArray({min: 1}).withMessage("brands need array with min one brand")
+        .custom(validation.arrayContentOnlyString).withMessage("brands content item not string")
     ,
 
     checkFields
 ], createCategory)
 
-// GET - Get all categories and brand
+// GET - Route get all categories and brand
 routeCategory.get("/", [ validateJWT ], getAllCategoriesAndBrand)
 
-// DELETE - Delete Categories and Brand
+// DELETE - Route delete Categories and Brand
 routeCategory.delete("/:idCategory", [ validateJWT ], deleteCategoriesAndBrand)
-
-// PUT - Modify Name Category
-routeCategory.put("/", [
-    validateJWT,
-
-    check("oldCategory")
-        .trim()
-        .notEmpty().withMessage("oldCategory is required").bail()
-        .isString().withMessage("oldCategory not is string").bail()
-        .isLength({max: 16}).withMessage("oldCategory max length 16").bail()
-    ,
-
-    check("newCategory")
-        .trim()
-        .notEmpty().withMessage("newCategory is required").bail()
-        .isString().withMessage("newCategory not is string").bail()
-        .isLength({max: 16}).withMessage("newCategory max length 16").bail()
-    ,
-
-    checkFields
-], modifyNameCategory)
-
-
 
 
 // BRAND CONTROLLERS
-// PUT - Modify one Brand to Category
+// PUT - Route edit brands to category
 routeCategory.put("/brand", [ 
     validateJWT,
 
     check("category")
         .trim()
-        .notEmpty().withMessage("category is required").bail()
-        .isString().withMessage("category not is string").bail()
-        .isLength({max: 16}).withMessage("category max length 16").bail()
+        .notEmpty().withMessage("category is required")
+        .isString().withMessage("category not is string")
+        .isLength({max: 16}).withMessage("category max length 16")
     ,
 
     check("brands")
-        .notEmpty().withMessage("brands is required").bail()
-        .isArray({min: 1}).withMessage("brands need array with min one brand").bail()
-        .custom(validation.arrayContentOnlyString).withMessage("brands content item not string").bail()
+        .notEmpty().withMessage("brands is required")
+        .isArray({min: 1}).withMessage("brands need array with min one brand")
+        .custom(validation.arrayContentOnlyString).withMessage("brands content item not string")
     ,
 
     checkFields

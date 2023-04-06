@@ -53,32 +53,6 @@ export const deleteCategoriesAndBrand = async ( req: Request, res: Response ) =>
     } catch (error) { console.log(error); return res.status(500).json({ msg: "1500 - unexpected server error" }) }
 }
 
-// PUT - Modify Name Category
-export const modifyNameCategory = async( req: Request, res: Response ) => {
-    try {
-        let { oldCategory, newCategory } = req.body as IBodyModifyNameCategory;
-
-        oldCategory = oldCategory.toUpperCase();
-        newCategory = newCategory.toUpperCase();
-
-        if ( oldCategory === newCategory ) return res.status(400).json({ msg: "same category" });
-
-        const [ existCategory, alreadyExistNewCategory ] = await Promise.all([
-            Category.findOne({category: oldCategory}),
-            Category.findOne({category: newCategory})
-        ])
-
-        if (!existCategory) return res.status(404).json({ msg: "not found category" });
-        if (alreadyExistNewCategory) return res.status(404).json({ msg: "already exist this category" });
-
-        existCategory.category = newCategory;
-        await existCategory.save();
-
-        return res.json(existCategory);
-
-    } catch (error) { console.log(error); return res.status(500).json({ msg: "1500 - unexpected server error" }) }
-}
-
 
 // BRAND CONTROLLERS
 // PUT - Edit brands to category

@@ -10,18 +10,18 @@ import * as validation from "../../helpers/validation";
 export const routeUser = Router();
 
 
-routeUser.post("/register",[
-    check("password", "password is required").trim().notEmpty(),
-    check("password", "password invalid").trim().isString(),
-    check("password", "password length can only be greater than 8 and less than 24 characters").trim().isLength({min: 8, max: 32}),
+// routeUser.post("/register",[
+//     check("password", "password is required").trim().notEmpty(),
+//     check("password", "password invalid").trim().isString(),
+//     check("password", "password length can only be greater than 8 and less than 24 characters").trim().isLength({min: 8, max: 32}),
 
-    check("username", "username is required").trim().notEmpty(),
-    check("username", "username not is string").trim().isString(),
-    check("username", "username length can only be greater than 6 and less than 24 characters").trim().isLength({min: 6, max: 24}),
-    check("username", "username invalid, it already exists").trim().custom(validation.usernameExist),
+//     check("username", "username is required").trim().notEmpty(),
+//     check("username", "username not is string").trim().isString(),
+//     check("username", "username length can only be greater than 6 and less than 24 characters").trim().isLength({min: 6, max: 24}),
+//     check("username", "username invalid, it already exists").trim().custom(validation.usernameExist),
 
-    checkFields
-], createUser);
+//     checkFields
+// ], createUser);
 
 
 routeUser.put("/",[

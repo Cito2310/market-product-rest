@@ -1,7 +1,6 @@
 export interface IUserMongo {
-    email: string,
-    username: string,
     password: string,
+    username: string,
 }
 
 export interface IProductMongo {
