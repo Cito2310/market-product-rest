@@ -4,108 +4,119 @@ import { check } from "express-validator";
 import { checkFields } from '../../middlewares/checkFields';
 import { validateJWT } from '../../middlewares/validateJWT';
 
-import * as validation from "../../helpers/validation";
+import * as checkValidationProduct from "../../helpers/checkValidationProduct";
 
-import { changePriceProduct, createProduct, deleteProduct, editProduct, getProducts, getProductWithBarcode } from './productControllers';
+import { createProduct, deleteProduct, editProduct, getProducts } from './productControllers';
 
 export const routeProduct = Router();
-
-
-routeProduct.put("/price/:barcode",[
-    validateJWT,
-    
-    check("barcode", "product with this barcode not exist").trim().custom(validation.productExistBarcode),
-    check("barcode", "barcode is required").trim().notEmpty(),
-    check("barcode", "barcode not is string").trim().isString(),
-    check("barcode", "barcode length can only be less than 50 characters").trim().isLength({max: 50}),
-
-    check("price", "price is required").trim().notEmpty(),
-    check("price", "price not is string").trim().isNumeric(),
-    check("price", "price length can only be less than 32 characters").trim().isLength({max: 32}),
-
-    checkFields
-], changePriceProduct);
 
 
 routeProduct.post("/",[
     validateJWT,
 
-    check("barcode", "barcode is required").trim().notEmpty(),
-    check("barcode", "barcode not is string").trim().isString(),
-    check("barcode", "barcode length can only be less than 50 characters").trim().isLength({max: 50}),
+    check("barcode").trim()
+        .notEmpty().withMessage("barcode is required")
+        .isString().withMessage("barcode not is string")
+        .isLength({max: 20}).withMessage("barcode length can only be less than 20 characters")
+        .custom(checkValidationProduct.uniqueBarcode).withMessage("barcode already exist")
+    ,
 
-    check("brand", "brand is required").trim().notEmpty(),
-    check("brand", "brand not is string").trim().isString(),
-    check("brand", "brand length can only be less than 24 characters").trim().isLength({max: 24}),
+    check("brand").trim()
+        .notEmpty().withMessage("brand is required")
+        .isString().withMessage("brand not is string")
+        .isLength({max: 24}).withMessage("brand length can only be less than 24 characters")
+    ,
 
-    check("category", "category is required").trim().notEmpty(),
-    check("category", "category not is string").trim().isString(),
-    check("category", "category length can only be less than 24 characters").trim().isLength({max: 24}),
+    check("category").trim()
+        .notEmpty().withMessage("category is required")
+        .isString().withMessage("category not is string")
+        .isLength({max: 24}).withMessage("category length can only be less than 24 characters")
+    ,
 
-    check("name", "name is required").trim().notEmpty(),
-    check("name", "name not is string").trim().isString(),
-    check("name", "name length can only be less than 32 characters").trim().isLength({max: 32}),
+    check("name").trim()
+        .notEmpty().withMessage("name is required")
+        .isString().withMessage("name not is string")
+        .isLength({max: 32}).withMessage("name length can only be less than 32 characters")
+    ,
 
-    check("price", "price is required").trim().notEmpty(),
-    check("price", "price not is string").trim().isNumeric(),
-    check("price", "price length can only be less than 32 characters").trim().isLength({max: 32}),
+    check("price").trim()
+        .notEmpty().withMessage("price is required")
+        .isNumeric().withMessage("price not is number")
+        .isLength({max: 24}).withMessage("price length can only be less than 24 characters")
+    ,
 
-    check("size", "size is required").trim().notEmpty(),
-    check("size", "size not is string").trim().isString(),
-    check("size", "size length can only be less than 24 characters").trim().isLength({max: 24}),
+    check("size").trim()
+        .notEmpty().withMessage("size is required")
+        .isString().withMessage("size not is string")
+        .isLength({max: 24}).withMessage("size length can only be less than 32 characters")
+    ,
 
     checkFields
 ], createProduct);
 
 
+
+
 routeProduct.delete("/:barcode",[ 
     validateJWT,
 
-    check("barcode", "product with this barcode not exist").trim().custom(validation.productExistBarcode),
-    check("barcode", "barcode is required").trim().notEmpty(),
-    check("barcode", "barcode not is string").trim().isString(),
-    check("barcode", "barcode length can only be less than 50 characters").trim().isLength({max: 50}),
+    check("barcode").trim()
+        .notEmpty().withMessage("barcode is required")
+        .isString().withMessage("barcode not is string")
+        .isLength({max: 20}).withMessage("barcode legth can only be less than 20 characters")
+        .custom(checkValidationProduct.productExistWithBarcode).withMessage("product with this barcode not exist")
+    ,
 
     checkFields,
 ], deleteProduct);
 
 
+
+
 routeProduct.put("/:barcode",[
     validateJWT,
+
+    check("barcode").optional().trim()
+        .notEmpty().withMessage("barcode is required")
+        .isString().withMessage("barcode not is string")
+        .isLength({max: 20}).withMessage("barcode length can only be less than 20 characters")
+        .custom(checkValidationProduct.productExistWithBarcode).withMessage("product with this barcode not exist")
+    ,
+
+    check("brand").optional().trim()
+        .notEmpty().withMessage("brand is required")
+        .isString().withMessage("brand not is string")
+        .isLength({max: 24}).withMessage("brand length can only be less than 24 characters")
+    ,
+
+    check("category").optional().trim()
+        .notEmpty().withMessage("category is required")
+        .isString().withMessage("category not is string")
+        .isLength({max: 24}).withMessage("category length can only be less than 24 characters")
+    ,
+
+    check("name").optional().trim()
+        .notEmpty().withMessage("name is required")
+        .isString().withMessage("name not is string")
+        .isLength({max: 32}).withMessage("name length can only be less than 32 characters")
+    ,
+
+    check("price").optional().trim()
+        .notEmpty().withMessage("price is required")
+        .isNumeric().withMessage("price not is number")
+        .isLength({max: 24}).withMessage("price length can only be less than 24 characters")
+    ,
+
+    check("size").optional().trim()
+        .notEmpty().withMessage("size is required")
+        .isString().withMessage("size not is string")
+        .isLength({max: 24}).withMessage("size length can only be less than 32 characters")
+    ,
     
-    check("barcode", "product with this barcode not exist").optional().trim().custom(validation.productExistBarcode),
-    check("barcode", "barcode is required").optional().trim().notEmpty(),
-    check("barcode", "barcode not is string").optional().trim().isString(),
-    check("barcode", "barcode length can only be less than 50 characters").optional().trim().isLength({max: 50}),
-
-    check("brand", "brand is required").optional().trim().notEmpty(),
-    check("brand", "brand not is string").optional().trim().isString(),
-    check("brand", "brand length can only be less than 24 characters").optional().trim().isLength({max: 24}),
-
-    check("category", "category is required").optional().trim().notEmpty(),
-    check("category", "category not is string").optional().trim().isString(),
-    check("category", "category length can only be less than 24 characters").optional().trim().isLength({max: 24}),
-
-    check("name", "name is required").optional().trim().notEmpty(),
-    check("name", "name not is string").optional().trim().isString(),
-    check("name", "name length can only be less than 32 characters").optional().trim().isLength({max: 32}),
-
-    check("size", "size is required").optional().trim().notEmpty(),
-    check("size", "size not is string").optional().trim().isString(),
-    check("size", "size length can only be less than 24 characters").optional().trim().isLength({max: 24}),
-
     checkFields
 ], editProduct);
 
 
+
+
 routeProduct.get("/", getProducts);
-
-
-routeProduct.get("/:barcode",[
-    check("barcode", "product with this barcode not exist").trim().custom(validation.productExistBarcode),
-    check("barcode", "barcode is required").trim().notEmpty(),
-    check("barcode", "barcode not is string").trim().isString(),
-    check("barcode", "barcode length can only be less than 50 characters").trim().isLength({max: 50}),
-
-    checkFields
-], getProductWithBarcode);

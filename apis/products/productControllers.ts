@@ -1,87 +1,76 @@
 import { Request, Response } from "express";
-
 import { Product } from "./productModels";
-
-import { IBodyProduct, IBodyChangeDataPriceProduct } from '../../types/InputBodyTypes';
-
-
-export const changePriceProduct = async (req: Request, res: Response) => {
-    try {
-        const { barcode } = req.params;
-        const { price } = req.body as IBodyChangeDataPriceProduct;
-
-        const modifyProduct = await Product.findOneAndUpdate({barcode}, { price }, { new: true });
-
-        return res.status(200).json(modifyProduct);
-
-    } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
-}
+import { IBodyProduct } from '../../types/InputBodyTypes';
 
 
+
+// CONTROLLER - Create Product
+// Permite crear un nuevo producto la data en el body - Need Token
 export const createProduct = async (req: Request, res: Response) => {
     try {
+        // declare var
         const { _id, ...newProductData } = req.body as IBodyProduct;
 
-        const { price, ...newProductDataNotPrice } = newProductData;
-        const existSomeProduct = await Product.findOne(newProductDataNotPrice);
-
-        if ( existSomeProduct ) return res.status(400).json({ msg: "this product already exists" })
-
+        // create new product and save
         const newProduct = new Product(newProductData);
-
         newProduct.save()
 
+        // return new product
         return res.status(200).json(newProduct)
 
+
     } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
 }
 
 
+
+
+// CONTROLLER - Delete Product
+// Permite eliminar el producto enviado en el barcode - Need Token
 export const deleteProduct = async (req: Request, res: Response) => {
     try {
+        // declare var
         const { barcode } = req.params;
 
-        await Product.findOneAndDelete({barcode})
+        // delete product
+        const productDelete = await Product.findOneAndDelete({barcode})
 
-        return res.status(204).json()
+        // return product delete
+        return res.status(200).json(productDelete)
         
+
     } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
 }
 
 
+
+
+// CONTROLLER - Edit Product
+// Permite modificar el producto enviado en el barcode y la data en el body - Need Token
 export const editProduct = async (req: Request, res: Response) => {
     try {
+        // declare var
         const { barcode } = req.params;
         const { _id, ...modifyProductData } = req.body as IBodyProduct;
 
-        const existSomeProduct = await Product.findOne(modifyProductData);
-        if ( existSomeProduct ) return res.status(400).json({ msg: "this product already exists" })
-        
+        // modify product and return
         const modifyProduct = await Product.findOneAndUpdate({barcode}, modifyProductData, { new: true })
         return res.status(200).json(modifyProduct)
+      
         
     } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
 }
 
 
+
+
+// CONTROLLER - Get Product
+// Permite obtener todos los productos
 export const getProducts = async (req: Request, res: Response) => {
     try {
         const allProduct = await Product.find()
         return res.status(200).json(allProduct)
         
+
     } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
-}
-
-
-export const getProductWithBarcode = async (req: Request, res: Response) => {
-    try {
-        const { barcode } = req.params;
-
-        const productFind = await Product.findOne({barcode})
-
-        if ( !productFind ) return res.status(404).json({msg: "product not found"})
-
-        return res.status(200).json(productFind)
-        
-    } catch (error) { console.log(error); return res.status(500).json({ msg: "1500 - unexpected server error" })}
 }

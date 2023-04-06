@@ -17,15 +17,6 @@ export interface IBodyProduct extends IProductMongo {
     _id?: unknown
 }
 
-export interface IBodyChangeDataProduct extends IProductMongo {
-    _id?: unknown,
-}
-
-export interface IBodyChangeDataPriceProduct {
-    _id?: unknown,
-    price: number
-}
-
 
 
 

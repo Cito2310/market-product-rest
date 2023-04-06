@@ -1,17 +1,16 @@
 import { Router } from "express";
 import { check } from "express-validator";
 
-import { createUser, loginUser } from './userControllers';
-
 import { checkFields } from '../../middlewares/checkFields';
-import { validateJWT } from '../../middlewares/validateJWT';
-import * as validationUser from "../../helpers/checkValidationUser";
+
+import * as checkValidationUser from "../../helpers/checkValidationUser";
+
+import { createUser, loginUser } from './userControllers';
 
 export const routeUser = Router();
 
 
 routeUser.post("/register",[
-    
     check("password").trim()
         .notEmpty().withMessage("password is required")
         .isString().withMessage("password not is string")
@@ -22,7 +21,7 @@ routeUser.post("/register",[
         .notEmpty().withMessage("password is required")
         .isString().withMessage("username not is string")
         .isLength({min:8, max: 32}).withMessage("username length can only be greater than 8 and less than 24 characters")
-        .custom(validationUser.notExistWithUsername).withMessage("username it already exists")
+        .custom(checkValidationUser.notExistWithUsername).withMessage("username it already exists")
     ,
 
     checkFields
@@ -32,17 +31,16 @@ routeUser.post("/register",[
 
 
 routeUser.post("/login",[
-
     check("password").trim()
         .notEmpty().withMessage("password is required")
         .isString().withMessage("password not is string")
-        .custom(validationUser.passwordEqual).withMessage("invalid login")
+        .custom(checkValidationUser.passwordEqual).withMessage("invalid login")
     ,
 
     check("username").trim()
         .notEmpty().withMessage("username is required")
         .isString().withMessage("username not is string")
-        .custom(validationUser.notExistWithUsername).withMessage("invalid login")
+        .custom(checkValidationUser.notExistWithUsername).withMessage("invalid login")
     ,
 
     checkFields
