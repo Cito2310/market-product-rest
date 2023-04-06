@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 
-import { createUser, changeDataUser, loginUser, deleteUser, getUser } from './userControllers';
+import { createUser, loginUser } from './userControllers';
 
 import { checkFields } from '../../middlewares/checkFields';
 import { validateJWT } from '../../middlewares/validateJWT';
@@ -29,30 +29,6 @@ routeUser.post("/register",[
 ], createUser);
 
 
-routeUser.put("/",[
-    validateJWT,
-
-    check("password").optional().trim()
-        .isString().withMessage("password not is string")
-        .isLength({min:8, max: 32}).withMessage("password length can only be greater than 8 and less than 24 characters")
-        .custom(validationUser.passwordNotEqual).withMessage("password equal")
-    ,
-
-    check("username").optional().trim()
-        .isString().withMessage("username not is string")
-        .isLength({min:8, max: 32}).withMessage("username length can only be greater than 8 and less than 24 characters")
-        .custom(validationUser.usernameNotEqual).withMessage("username equal")
-        .custom(validationUser.notExistWithUsername).withMessage("username it already exists")
-    ,
-
-    checkFields
-], changeDataUser);
-
-
-routeUser.get("/",[ validateJWT ], getUser);
-
-
-routeUser.delete("/",[ validateJWT ], deleteUser);
 
 
 routeUser.post("/login",[

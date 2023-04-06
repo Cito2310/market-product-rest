@@ -6,12 +6,6 @@ export interface IBodyUser extends IUserMongo {
     _id?: unknown
 }
 
-export interface IBodyChangeDataUser {
-    _id?: unknown
-    username?: string
-    password?: string
-}
-
 export interface IBodyLogin extends IUserMongo {}
 
 
@@ -31,8 +25,6 @@ export interface IBodyChangeDataPriceProduct {
     _id?: unknown,
     price: number
 }
-
-
 
 
 

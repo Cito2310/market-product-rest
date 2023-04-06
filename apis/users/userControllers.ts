@@ -5,7 +5,7 @@ import { User } from "./userModels";
 
 import { generatorJWT } from '../../helpers/generatorJWT';
 
-import { IBodyUser, IBodyChangeDataUser, IBodyLogin } from '../../types/InputBodyTypes';
+import { IBodyUser, IBodyLogin } from '../../types/InputBodyTypes';
 
 
 
@@ -37,62 +37,8 @@ export async function createUser (req: Request, res: Response) {
 
 
 
-// CONTROLLER - Change Data User - Need Token
-// Permite editar el usuario que esta en el token con la data en el body ( username, password )
-export async function changeDataUser (req: Request, res: Response) {
-    try {
-        // declare var
-        const { _id, ...newData } = req.body as IBodyChangeDataUser;
-        const user = req.user;
-
-        // change password && encrypt password
-        if ( newData.password ) {
-            const salt = bcryptjs.genSaltSync()
-            newData.password = bcryptjs.hashSync(newData.password, salt)
-        }
-
-        // find user and update
-        const userChanged = await User.findByIdAndUpdate( user._id, newData );
-
-        // save user data
-        await userChanged?.save();
-
-        // return
-        return res.status(204).json()
-
-
-    } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
-}
-
-
-
-
-// CONTROLLER - Get User - Need Token
-export async function getUser (req: Request, res: Response) {
-    try {  
-        return res.status(200).json(req.user);
-
-
-    } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
-}
-
-
-
-
-// CONTROLLER - Delete User - Need Token
-export async function deleteUser (req: Request, res: Response) {
-    try {
-        await User.findByIdAndDelete(req.user._id);
-        return res.status(204).json();
-
-
-    } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
-}
-
-
-
-
 // CONTROLLER - Login User
+// Al enviar body ( username, password ) si es correcto te retorna el token de acceso
 export async function loginUser (req: Request, res: Response) {
     try {
         // declare var
