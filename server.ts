@@ -13,7 +13,6 @@ export class Server {
         user : "/api/user",
         product: "/api/product",
         category: "/api/category",
-        ticket: "/api/ticket",
     }
 
     constructor(){
