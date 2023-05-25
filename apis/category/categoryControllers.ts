@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { Category } from "./categoryModels";
 
-import { BodyCreateCategory, BodyUpdateCategory } from "../../types/body/bodyCategory";
+import { BodyCreateCategory, BodyUpdateCategory } from "../../types/bodyCategory";
 
 
 
