@@ -92,19 +92,21 @@ Crea una nueva categoria con los datos insertado en el body.
 Es necesario insertar el *token* en el header.    
 Es necesario insertar en el *body*:
 - category: *string* - El nombre de la nueva categoria
+- brands: *string [ ]* - optional - Es el array que posee todas las marcas
 
 **OUPUT**: Retorna el objeto de la nueva categoria.
 
 - - -
 
-#### **PUT** - https://market-product-rest.onrender.com/api/category/brand
+#### **PUT** - https://market-product-rest.onrender.com/api/category/:idCategory
 Modifica los datos del producto que posee el mismo barcode insertado en la ruta.
 
 #### **INPUT**
 Es necesario insertar el *token* en el header.  
+Es necesario insertar en la ruta el *id* de la categoria.  
 Es necesario insertar en el *body*:
-- category: *string* - La categoria que se va a modificar
-- brands: *string [ ]* - Es el array que posee todas las marcas
+- category: *string* - optional - La categoria que se va a modificar
+- brands: *string [ ]* - optional - Es el array que posee todas las marcas
 
 **OUPUT** : Retorna el objeto de la categoria con los cambios pertinentes.
 

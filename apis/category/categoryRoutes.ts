@@ -3,9 +3,9 @@ import { check } from "express-validator";
 
 import { 
     createCategory, 
-    deleteCategoriesAndBrand,
-    getAllCategoriesAndBrand, 
-    editBrandsToCategory,
+    deleteCategoryById,
+    getCategories,
+    updateCategoryById
 } from './categoryControllers';
 
 import { checkFields } from '../../middlewares/checkFields';
@@ -27,13 +27,19 @@ routeCategory.post("/", [
         .custom(checkValidationCategory.notExistCategory).withMessage("already exist category")
     ,
 
+    check("brands").optional()
+        .notEmpty().withMessage("brands is required")
+        .isArray({min: 1}).withMessage("brands need array with min one brand")
+        .custom(checkValidationCategory.arrayContentOnlyString).withMessage("brands content item not string")
+    ,
+
     checkFields
 ], createCategory)
 
 
 
 
-routeCategory.get("/", [ validateJWT ], getAllCategoriesAndBrand)
+routeCategory.get("/", [ validateJWT ], getCategories)
 
 
 
@@ -47,26 +53,26 @@ routeCategory.delete("/:idCategory", [
     ,
 
     checkFields
-], deleteCategoriesAndBrand)
+], deleteCategoryById)
 
 
 
 
-routeCategory.put("/brand", [ 
+routeCategory.put("/:idCategory", [ 
     validateJWT,
 
-    check("category").trim()
+    check("category").trim().optional()
         .notEmpty().withMessage("category is required")
         .isString().withMessage("category not is string")
         .isLength({max: 16}).withMessage("category max length 16")
-        .custom(checkValidationCategory.existCategory).withMessage("not exist category with this name")
+        .custom(checkValidationCategory.existCategoryId).withMessage("not exist category with this name")
     ,
 
-    check("brands")
+    check("brands").optional()
         .notEmpty().withMessage("brands is required")
         .isArray({min: 1}).withMessage("brands need array with min one brand")
         .custom(checkValidationCategory.arrayContentOnlyString).withMessage("brands content item not string")
     ,
 
     checkFields
-], editBrandsToCategory)
+], updateCategoryById)

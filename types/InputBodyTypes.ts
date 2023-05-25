@@ -16,17 +16,3 @@ export interface IBodyLogin extends IUserMongo {}
 export interface IBodyProduct extends IProductMongo {
     _id?: unknown
 }
-
-
-
-
-
-// B O D Y   C A T E G O R Y   T Y P E
-export interface IBodyCreateCategory {
-    category: string,
-}
-
-export interface IBodyModifyBrandToCategory {
-    category: string,
-    brands: string[],
-}
