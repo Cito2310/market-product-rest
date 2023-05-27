@@ -61,11 +61,15 @@ routeCategory.delete("/:idCategory", [
 routeCategory.put("/:idCategory", [ 
     validateJWT,
 
+    check("idCategory")
+        .isMongoId().withMessage("id invalid")
+        .custom(checkValidationCategory.existCategoryId).withMessage("not exist category with this name")
+    ,
+
     check("category").trim().optional()
         .notEmpty().withMessage("category is required")
         .isString().withMessage("category not is string")
         .isLength({max: 16}).withMessage("category max length 16")
-        .custom(checkValidationCategory.existCategoryId).withMessage("not exist category with this name")
     ,
 
     check("brands").optional()
