@@ -10,9 +10,9 @@ import { BodyCreateCategory, BodyUpdateCategory } from "../../types/bodyCategory
 
 export const createCategory = async( req: Request, res: Response ) => {
     try {
-        let { category, brands } = req.body as BodyCreateCategory;
+        let { name, subcategories } = req.body as BodyCreateCategory;
 
-        const newCategory = new Category({ category, brands });
+        const newCategory = new Category({ name, subcategories });
         await newCategory.save();
 
         return res.json(newCategory);
@@ -40,9 +40,6 @@ export const deleteCategoryById = async ( req: Request, res: Response ) => {
     try {
         let { idCategory } = req.params;
 
-        let existCategory = await Category.findById( idCategory );
-        if (!existCategory) return res.status(404).json({msg: `not found category with id: ${idCategory}`});
-
         const category = await Category.findByIdAndDelete(idCategory);
 
         return res.status(200).json(category);
@@ -57,15 +54,15 @@ export const deleteCategoryById = async ( req: Request, res: Response ) => {
 export const updateCategoryById = async( req: Request, res: Response ) => {
     try {
         let { idCategory } = req.params;
-        let { brands, category } = req.body as BodyUpdateCategory;
+        let { name, subcategories } = req.body as BodyUpdateCategory;
 
         let existCategory = await Category.findById( idCategory );
-        if (!existCategory) return res.status(404).json({msg: `not found category with id: ${idCategory}`});
 
-        existCategory.brands = brands;
-        existCategory.category = category;
+        if ( name ) existCategory!.name = name;
+        // @ts-ignore
+        if ( subcategories ) existCategory!.subcategories = subcategories;
 
-        await existCategory.save();
+        await existCategory!.save();
         return res.json(existCategory);
 
 

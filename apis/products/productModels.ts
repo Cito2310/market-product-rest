@@ -3,6 +3,7 @@ import { IProductMongo } from '../../types/TypesMoongose';
 
 
 const productSchema = new Schema<IProductMongo>({
+    type: { type: String, enum: ["weight", "unit"], required: true },
     barcode: { type: String, required: true },
     brand: { type: String, required: true, uppercase: true },
     category: { type: String, required: true, uppercase: true },

@@ -4,6 +4,7 @@ export interface IUserMongo {
 }
 
 export interface IProductMongo {
+    type: "weight" | "unit",
     barcode: string,
     brand: string,
     category: string

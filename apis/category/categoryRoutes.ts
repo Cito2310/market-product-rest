@@ -10,7 +10,7 @@ import {
 
 import { checkFields } from '../../middlewares/checkFields';
 import { validateJWT } from '../../middlewares/validateJWT';
-import * as checkValidationCategory from "../../helpers/checkValidationCategory";
+import { notExistCategory, existCategory, existCategoryId, arrayContentOnlyString, arrayContentOnlyObject, arrayContentOnlySubcategories } from "../../helpers/checkValidationCategory";
 
 export const routeCategory = Router();
 
@@ -20,17 +20,16 @@ export const routeCategory = Router();
 routeCategory.post("/", [
     validateJWT,
 
-    check("category").trim()
-        .notEmpty().withMessage("category is required")
-        .isString().withMessage("category not is string")
-        .isLength({max: 16}).withMessage("category max length 16")
-        .custom(checkValidationCategory.notExistCategory).withMessage("already exist category")
+    check("name").trim()
+        .notEmpty().withMessage("name is required")
+        .isString().withMessage("name not is string")
+        .isLength({max: 24}).withMessage("name max length 24")
+        .custom( notExistCategory ).withMessage("already exist category")
     ,
 
-    check("brands").optional()
-        .notEmpty().withMessage("brands is required")
-        .isArray({min: 1}).withMessage("brands need array with min one brand")
-        .custom(checkValidationCategory.arrayContentOnlyString).withMessage("brands content item not string")
+    check("subcategories").optional()
+        .isArray({min: 1}).withMessage("subcategories need array with min one subcategory")
+        .custom( arrayContentOnlySubcategories ).withMessage("subcategories content item not object valid")
     ,
 
     checkFields
@@ -39,7 +38,10 @@ routeCategory.post("/", [
 
 
 
-routeCategory.get("/", [ validateJWT ], getCategories)
+routeCategory.get("/", [ 
+    validateJWT 
+    
+], getCategories)
 
 
 
@@ -49,7 +51,7 @@ routeCategory.delete("/:idCategory", [
 
     check("idCategory")
         .isMongoId().withMessage("id invalid")
-        .custom(checkValidationCategory.existCategoryId).withMessage("not exist category with this id")
+        .custom( existCategoryId ).withMessage("not exist category with this id")
     ,
 
     checkFields
@@ -63,19 +65,18 @@ routeCategory.put("/:idCategory", [
 
     check("idCategory")
         .isMongoId().withMessage("id invalid")
-        .custom(checkValidationCategory.existCategoryId).withMessage("not exist category with this name")
+        .custom( existCategoryId ).withMessage("not exist category with this id")
     ,
 
-    check("category").trim().optional()
-        .notEmpty().withMessage("category is required")
-        .isString().withMessage("category not is string")
-        .isLength({max: 16}).withMessage("category max length 16")
+    check("name").trim().optional()
+        .isString().withMessage("name not is string")
+        .isLength({max: 24}).withMessage("name max length 24")
+        // .custom( notExistCategory ).withMessage("already exist category")
     ,
 
-    check("brands").optional()
-        .notEmpty().withMessage("brands is required")
-        .isArray({min: 1}).withMessage("brands need array with min one brand")
-        .custom(checkValidationCategory.arrayContentOnlyString).withMessage("brands content item not string")
+    check("subcategories").optional()
+        .isArray({min: 1}).withMessage("subcategories need array with min one subcategory")
+        .custom( arrayContentOnlySubcategories ).withMessage("subcategories content item not object valid")
     ,
 
     checkFields

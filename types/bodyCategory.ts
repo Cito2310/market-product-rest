@@ -1,9 +1,15 @@
 export interface BodyCreateCategory {
-    category: string
-    brands?: string[]
+    name: string;
+    subcategories?: { 
+        name: string;
+        brands?: string[];
+    }[];
 }
 
 export interface BodyUpdateCategory {
-    category: string,
-    brands: string[]
+    name?: string;
+    subcategories?: { 
+        name: string;
+        brands?: string[];
+    }[];
 }
