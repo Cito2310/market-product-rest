@@ -4,9 +4,9 @@ import { check } from "express-validator";
 import { checkFields } from '../../middlewares/checkFields';
 import { validateJWT } from '../../middlewares/validateJWT';
 
-import * as checkValidationProduct from "../../helpers/checkValidationProduct";
+import { productExistWithBarcode, typeValid, uniqueBarcode, unitSizeValid } from "../../helpers/checkValidationProduct";
 
-import { createProduct, deleteProduct, editProduct, getProducts } from './productControllers';
+import { createProduct, deleteProduct, updateProduct, getProducts } from './productControllers';
 
 export const routeProduct = Router();
 
@@ -18,7 +18,7 @@ routeProduct.post("/",[
         .notEmpty().withMessage("barcode is required")
         .isString().withMessage("barcode not is string")
         .isLength({max: 20}).withMessage("barcode length can only be less than 20 characters")
-        .custom(checkValidationProduct.uniqueBarcode).withMessage("barcode already exist")
+        .custom( uniqueBarcode ).withMessage("barcode already exist")
     ,
 
     check("brand").trim()
@@ -47,8 +47,27 @@ routeProduct.post("/",[
 
     check("size").trim()
         .notEmpty().withMessage("size is required")
-        .isString().withMessage("size not is string")
-        .isLength({max: 24}).withMessage("size length can only be less than 32 characters")
+        .isNumeric().withMessage("size not is number")
+        .isLength({max: 24}).withMessage("size length can only be less than 24 characters")
+    ,
+
+
+    check("subcategory").trim()
+        .notEmpty().withMessage("subcategory is required")
+        .isString().withMessage("subcategory not is string")
+        .isLength({max: 24}).withMessage("subcategory length can only be less than 24 characters")
+    ,
+
+    check("type").trim()
+        .notEmpty().withMessage("type is required")
+        .isString().withMessage("type not is string")
+        .custom( typeValid ).withMessage("type invalid [ weight | unit ]")
+    ,
+
+    check("sizeUnit").trim()
+        .notEmpty().withMessage("sizeUnit is required")
+        .isString().withMessage("sizeUnit not is string")
+        .custom( unitSizeValid ).withMessage("sizeUnit invalid [kg, g, oz, cm3, l, ml, cc, u]")
     ,
 
     checkFields
@@ -64,7 +83,7 @@ routeProduct.delete("/:barcode",[
         .notEmpty().withMessage("barcode is required")
         .isString().withMessage("barcode not is string")
         .isLength({max: 20}).withMessage("barcode legth can only be less than 20 characters")
-        .custom(checkValidationProduct.productExistWithBarcode).withMessage("product with this barcode not exist")
+        .custom( productExistWithBarcode ).withMessage("product with this barcode not exist")
     ,
 
     checkFields,
@@ -76,11 +95,9 @@ routeProduct.delete("/:barcode",[
 routeProduct.put("/:barcode",[
     validateJWT,
 
-    check("barcode").optional().trim()
-        .notEmpty().withMessage("barcode is required")
-        .isString().withMessage("barcode not is string")
+    check("barcode").trim()
         .isLength({max: 20}).withMessage("barcode length can only be less than 20 characters")
-        .custom(checkValidationProduct.productExistWithBarcode).withMessage("product with this barcode not exist")
+        .custom( productExistWithBarcode ).withMessage("product with this barcode not exist")
     ,
 
     check("brand").optional().trim()
@@ -109,12 +126,32 @@ routeProduct.put("/:barcode",[
 
     check("size").optional().trim()
         .notEmpty().withMessage("size is required")
-        .isString().withMessage("size not is string")
-        .isLength({max: 24}).withMessage("size length can only be less than 32 characters")
+        .isNumeric().withMessage("size not is number")
+        .isLength({max: 24}).withMessage("size length can only be less than 24 characters")
     ,
+
+
+    check("subcategory").optional().trim()
+        .notEmpty().withMessage("subcategory is required")
+        .isString().withMessage("subcategory not is string")
+        .isLength({max: 24}).withMessage("subcategory length can only be less than 24 characters")
+    ,
+
+    check("type").optional().trim()
+        .notEmpty().withMessage("type is required")
+        .isString().withMessage("type not is string")
+        .custom( typeValid ).withMessage("type invalid [ weight | unit ]")
+    ,
+
+    check("sizeUnit").optional().trim()
+        .notEmpty().withMessage("sizeUnit is required")
+        .isString().withMessage("sizeUnit not is string")
+        .custom( unitSizeValid ).withMessage("sizeUnit invalid [kg, g, oz, cm3, l, ml, cc, u]")
+    ,
+
     
     checkFields
-], editProduct);
+], updateProduct);
 
 
 

@@ -2,7 +2,22 @@ import { CustomValidator } from "express-validator";
 import { Product } from "../apis/products/productModels";
 
 // P R O D U C T
-// VALIDAR - Verificar que no exista un producto registrado con el barcode
+export const typeValid: CustomValidator = async ( sizeUnit: string ) => {
+    const validTypes = ["weight", "unit"];
+    if ( !validTypes.includes( sizeUnit ) ) throw new Error;
+
+    return true
+}
+
+
+export const unitSizeValid: CustomValidator = async ( sizeUnit: string ) => {
+    const validUnits = ["kg", "g", "oz", "cm3", "l", "ml", "u", "cc"];
+    if ( !validUnits.includes( sizeUnit ) ) throw new Error;
+
+    return true
+}
+
+
 export const uniqueBarcode: CustomValidator = async ( barcode: string ) => {
     const product = await Product.findOne({ barcode });
 
@@ -11,7 +26,7 @@ export const uniqueBarcode: CustomValidator = async ( barcode: string ) => {
     return true;
 }
 
-// VALIDAR - Verificar que exista un producto registrado con el barcode
+
 export const productExistWithBarcode: CustomValidator = async ( barcode: string ) => {
     const product = await Product.findOne({ barcode });
 

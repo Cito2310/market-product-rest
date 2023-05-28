@@ -1,10 +1,6 @@
 import { Types } from 'mongoose';
-import { IUserMongo } from './TypesMoongose';
+import { UserMongo } from './typesMongoose';
 
-export interface IUser extends IUserMongo {
-    _id: Types.ObjectId
-}
-
-export interface IProduct extends IUserMongo {
+export interface IUser extends UserMongo {
     _id: Types.ObjectId
 }

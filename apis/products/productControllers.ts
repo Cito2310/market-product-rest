@@ -1,21 +1,16 @@
 import { Request, Response } from "express";
 import { Product } from "./productModels";
-import { IBodyProduct } from '../../types/InputBodyTypes';
+import { BodyCreateProduct, BodyUpdateProduct } from "../../types/bodyProduct";
 
 
 
-// CONTROLLER - Create Product
-// Permite crear un nuevo producto la data en el body - Need Token
 export const createProduct = async (req: Request, res: Response) => {
     try {
-        // declare var
-        const { _id, ...newProductData } = req.body as IBodyProduct;
+        const { _id, ...createProductData } = req.body as BodyCreateProduct;
 
-        // create new product and save
-        const newProduct = new Product(newProductData);
+        const newProduct = new Product(createProductData);
         newProduct.save()
 
-        // return new product
         return res.status(200).json(newProduct)
 
 
@@ -25,17 +20,12 @@ export const createProduct = async (req: Request, res: Response) => {
 
 
 
-// CONTROLLER - Delete Product
-// Permite eliminar el producto enviado en el barcode - Need Token
 export const deleteProduct = async (req: Request, res: Response) => {
     try {
-        // declare var
         const { barcode } = req.params;
 
-        // delete product
         const productDelete = await Product.findOneAndDelete({barcode})
 
-        // return product delete
         return res.status(200).json(productDelete)
         
 
@@ -45,17 +35,13 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
 
 
-// CONTROLLER - Edit Product
-// Permite modificar el producto enviado en el barcode y la data en el body - Need Token
-export const editProduct = async (req: Request, res: Response) => {
+export const updateProduct = async (req: Request, res: Response) => {
     try {
-        // declare var
         const { barcode } = req.params;
-        const { _id, ...modifyProductData } = req.body as IBodyProduct;
+        const { _id, ...updateProductData } = req.body as BodyUpdateProduct;
 
-        // modify product and return
-        const modifyProduct = await Product.findOneAndUpdate({barcode}, modifyProductData, { new: true })
-        return res.status(200).json(modifyProduct)
+        const newUpdateProduct = await Product.findOneAndUpdate({barcode}, updateProductData, { new: true })
+        return res.status(200).json(newUpdateProduct)
       
         
     } catch (error) { return res.status(500).json({ msg: "1500 - unexpected server error" })}
@@ -64,8 +50,6 @@ export const editProduct = async (req: Request, res: Response) => {
 
 
 
-// CONTROLLER - Get Product
-// Permite obtener todos los productos
 export const getProducts = async (req: Request, res: Response) => {
     try {
         const allProduct = await Product.find()
