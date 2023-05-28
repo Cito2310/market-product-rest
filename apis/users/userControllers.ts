@@ -2,16 +2,16 @@ import { Request, Response } from "express";
 import bcryptjs from "bcryptjs";
 import { User } from "./userModels";
 import { generatorJWT } from '../../helpers/generatorJWT';
-import { IBodyUser, IBodyLogin } from '../../types/InputBodyTypes';
+import { BodyCreateUser, BodyLoginUser } from "../../types/bodyUser";
 
 
 
 export async function createUser (req: Request, res: Response) {
     try {
-        const { _id, ...userData } = req.body as IBodyUser;
+        const { _id, ...userData } = req.body as BodyCreateUser;
     
         const salt = bcryptjs.genSaltSync();
-        userData.password = bcryptjs.hashSync( userData.password , salt)
+        userData.password = bcryptjs.hashSync( userData.password , salt);
     
         const newUser = new User(userData);
         await newUser.save();
@@ -29,9 +29,9 @@ export async function createUser (req: Request, res: Response) {
 
 export async function loginUser (req: Request, res: Response) {
     try {
-        const { username } = req.body as IBodyLogin;
+        const { username } = req.body as BodyLoginUser;
 
-        const user = await User.findOne({username})
+        const user = await User.findOne({username});
 
         const token: string = await generatorJWT({ id: user?._id });
         return res.status(200).json({ token });

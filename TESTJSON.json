@@ -1,9 +1,0 @@
-{
-    "name": "Alimentos",
-    "subcategories": [
-        {
-            "name": "Fideo",
-            "brands": ["La Providencia"]
-        }
-    ]
-}

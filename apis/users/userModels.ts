@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose";
-import { IUserMongo } from '../../types/TypesMoongose';
+import { UserMongo } from "../../types/typesMongoose";
 
 
-const userSchema = new Schema<IUserMongo>({
+const userSchema = new Schema<UserMongo>({
     password: {type: String, required: true},
     username: {type: String, required: true},
 })
